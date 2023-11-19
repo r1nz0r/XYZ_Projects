@@ -24,11 +24,15 @@ enum class Direction
     None
 };
 
-struct Object
+struct Vector2D
 {
-    const float SIZE = 20.0f;
     float positionX = 0;
     float positionY = 0;
+};
+
+struct Object : Vector2D
+{
+    const float SIZE = 20.0f;
 };
 
 struct Apple : public Object
@@ -222,7 +226,7 @@ int main()
     float lastTime = gameClock.getElapsedTime().asSeconds();
 
     sf::Font textFont;
-    textFont.loadFromFile("E:/XYZ/xyz-cpp-course-template-latest/ApplesGame/Resources/Fonts/Roboto-Black.ttf");
+    textFont.loadFromFile(RESOURCES_PATH + "/Fonts/Roboto-Black.ttf");
 
     GameScoreText.setFont(textFont);
     GameScoreText.setCharacterSize(20);
@@ -239,10 +243,16 @@ int main()
 
         //Read events
         sf::Event event;
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                window.close();
+            }
         }
 
         CalculatePlayerMovement(player, deltaTime);
