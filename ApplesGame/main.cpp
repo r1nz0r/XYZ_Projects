@@ -21,11 +21,6 @@ int main()
 
 	float lastTime = game.clock.getElapsedTime().asSeconds();
 
-	sf::Font textFont;
-	textFont.loadFromFile(RESOURCES_PATH + FONT_NAME);
-
-	InitializeGameScore(textFont, game);
-
 	while (window.isOpen())
 	{
 		//Calculate delta time

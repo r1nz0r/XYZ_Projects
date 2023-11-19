@@ -2,9 +2,12 @@
 
 void InitializeGame(Game& game)
 {
+	game.textFont.loadFromFile(RESOURCES_PATH + FONT_NAME);
+
 	InitializePlayer(game.player);
 	InitializeApples(game.apples);
 	InitializeRocks(game.rocks);
+	InitializeGameScore(game.textFont, game);
 }
 
 void Restart(sf::RenderWindow& window, Game& game)

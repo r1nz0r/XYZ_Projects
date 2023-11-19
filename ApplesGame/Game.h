@@ -11,6 +11,7 @@ struct Game
 	Apple apples[APPLES_AMOUNT];
 	Rectangle rocks[ROCKS_AMOUNT];
 	sf::Clock clock;
+	sf::Font textFont;
 	sf::Text scoreText;
 
 	bool isGameFinished = false;
