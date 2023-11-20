@@ -2,13 +2,16 @@
 #include "Constants.h"
 #include "Math.h"
 
-void InitializeApples(Apple apples[])
+namespace ApplesGame
 {
-	for (int i = 0; i < APPLES_AMOUNT; ++i)
+	void InitializeApples(Apple apples[])
 	{
-		SetRandomObjectCoordinates(apples[i], SCREEN_WIDTH, SCREEN_HEIGHT);
-		apples[i].shape.setRadius(apples[i].SIZE / 2.0f);
+		for (int i = 0; i < APPLES_AMOUNT; ++i)
+		{
+			SetRandomPosition(apples[i], SCREEN_WIDTH, SCREEN_HEIGHT);
+			apples[i].shape.setRadius(apples[i].SIZE / 2.0f);
 
-		InitializeShape(apples[i], apples[i].SIZE, sf::Color::Red, apples[i].shape);
+			InitializeShape(apples[i], apples[i].SIZE, sf::Color::Red, apples[i].shape);
+		}
 	}
 }

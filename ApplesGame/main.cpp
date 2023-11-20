@@ -10,6 +10,8 @@
 #include "Rock.h"
 #include "Game.h"
 
+using namespace ApplesGame;
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), GAME_TITLE);
@@ -45,7 +47,7 @@ int main()
 		CalculatePlayerMovement(game.player, deltaTime);
 		CheckPlayerCollisions(window, game);
 
-		game.player.shape.setPosition(game.player.positionX, game.player.positionY);
+		game.player.shape.setPosition(game.player.x, game.player.y);
 
 		DrawGame(window, game);
 	}

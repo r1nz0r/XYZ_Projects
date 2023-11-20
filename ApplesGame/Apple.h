@@ -1,10 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "CommonObjects.h"
+#include "Vector2D.h"
 
-struct Apple : public Object
+namespace ApplesGame
 {
-	sf::CircleShape shape;
-};
+	struct Apple : public Vector2D
+	{
+		const float SIZE = 20.0f;
+		sf::CircleShape shape;
+	};
 
-void InitializeApples(Apple apples[]);
+	void InitializeApples(Apple apples[]);
+}

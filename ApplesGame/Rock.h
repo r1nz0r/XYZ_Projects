@@ -1,4 +1,13 @@
 #pragma once
-#include "CommonObjects.h"
+#include "Vector2D.h"
 
-void InitializeRocks(Rectangle rocks[]);
+namespace ApplesGame
+{
+    struct Rock : public Vector2D
+    {
+        const float SIZE = 20.0f;
+        sf::RectangleShape shape;
+    };
+    
+    void InitializeRocks(Rock rocks[]);
+}
