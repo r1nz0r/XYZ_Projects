@@ -1,9 +1,15 @@
 #pragma once
-#include "CommonObjects.h"
 #include "Game.h"
 
-void SetRandomObjectCoordinates(Object& object, float screenWidth, float screenHeight);
+struct Vector2D
+{
+    float positionX = 0;
+    float positionY = 0;
+};
+
+void SetRandomObjectCoordinates(Vector2D& object, float screenWidth, float screenHeight);
 bool CheckAppleAndPlayerCollision(const Player& player, const Apple& apple);
-bool CheckRocksAndPlayerCollision(const Player& player, const Rectangle rocks[]);
+bool CheckRocksAndPlayerCollision(const Player& player, const Rock rocks[]);
 bool CheckBoundsCollision(const Game& game);
 void CheckPlayerCollisions(sf::RenderWindow& window, Game& game);
+void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape);

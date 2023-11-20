@@ -41,7 +41,7 @@ void DrawGame(sf::RenderWindow& window, const Game& game)
 		window.draw(apple.shape);
 	}
 
-	for (const Rectangle& rock : game.rocks)
+	for (const Rock& rock : game.rocks)
 	{
 		window.draw(rock.shape);
 	}

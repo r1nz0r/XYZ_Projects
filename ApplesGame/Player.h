@@ -1,5 +1,6 @@
 #pragma once
-#include "CommonObjects.h"
+#include "SFML/Graphics.hpp"
+#include "Math.h"
 
 enum class MoveDirection
 {
@@ -10,11 +11,13 @@ enum class MoveDirection
     None
 };
 
-struct Player : public Rectangle
+struct Player : Vector2D
 {
     const float ACCELERATION = 20.0f;
     const float INITIAL_SPEED = 100.0f;
+    const float SIZE = 20.0f;
     float speed = INITIAL_SPEED;
+    sf::RectangleShape shape;
     MoveDirection direction = MoveDirection::None;
 };
 

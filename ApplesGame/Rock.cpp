@@ -1,8 +1,7 @@
 #include "Rock.h"
 #include "Constants.h"
-#include "Math.h"
 
-void InitializeRocks(Rectangle rocks[])
+void InitializeRocks(Rock rocks[])
 {
 	for (int i = 0; i < ROCKS_AMOUNT; ++i)
 	{

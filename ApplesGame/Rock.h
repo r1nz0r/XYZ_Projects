@@ -1,4 +1,11 @@
 #pragma once
-#include "CommonObjects.h"
+#include <SFML/Graphics.hpp>
+#include "Math.h"
 
-void InitializeRocks(Rectangle rocks[]);
+struct Rock : Vector2D
+{
+    const float SIZE = 15.0f;
+    sf::RectangleShape shape;
+};
+
+void InitializeRocks(Rock rocks[]);

@@ -9,7 +9,7 @@ struct Game
 {
 	Player player;
 	Apple apples[APPLES_AMOUNT];
-	Rectangle rocks[ROCKS_AMOUNT];
+	Rock rocks[ROCKS_AMOUNT];
 	sf::Clock clock;
 	sf::Font textFont;
 	sf::Text scoreText;

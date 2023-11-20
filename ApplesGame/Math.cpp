@@ -1,9 +1,10 @@
 #include "Math.h"
+#include "Apple.h"
 
-void SetRandomObjectCoordinates(Object& object, float screenWidth, float screenHeight)
+void SetRandomObjectCoordinates(Vector2D& object, float screenWidth, float screenHeight)
 {
-	object.positionX = rand() / (float)RAND_MAX * screenWidth;
-	object.positionY = rand() / (float)RAND_MAX * screenHeight;
+	object.positionX = rand() / static_cast<float>(RAND_MAX) * screenWidth;
+	object.positionY = rand() / static_cast<float>(RAND_MAX) * screenHeight;
 }
 
 bool CheckAppleAndPlayerCollision(const Player& player, const Apple& apple)
@@ -24,7 +25,7 @@ bool CheckAppleAndPlayerCollision(const Player& player, const Apple& apple)
 	return false;
 }
 
-bool CheckRocksAndPlayerCollision(const Player& player, const Rectangle rocks[])
+bool CheckRocksAndPlayerCollision(const Player& player, const Rock rocks[])
 {
 	for (int i = 0; i < ROCKS_AMOUNT; ++i)
 	{
@@ -75,4 +76,11 @@ void CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
 	{
 		Restart(window, game);
 	}
+}
+
+void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape)
+{
+	shape.setFillColor(color);
+	shape.setOrigin(size / 2.f, size / 2.f);
+	shape.setPosition(object.positionX, object.positionY);
 }

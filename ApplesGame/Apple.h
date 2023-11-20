@@ -1,9 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "CommonObjects.h"
+#include "Math.h"
 
-struct Apple : public Object
+struct Apple : Vector2D
 {
+	const float SIZE = 10.0f;
 	sf::CircleShape shape;
 };
 
