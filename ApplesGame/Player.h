@@ -4,6 +4,8 @@
 
 namespace ApplesGame
 {
+    struct Game;
+
     enum class MoveDirection
     {
         Right,
@@ -20,11 +22,11 @@ namespace ApplesGame
         const float INITIAL_SPEED = 100.0f;
         Position2D position;
         float speed = INITIAL_SPEED;
-        sf::RectangleShape shape;
         sf::Sprite sprite;
         MoveDirection direction = MoveDirection::None;
     };
 
-    void InitializePlayer(Player& player);
+    void InitializePlayer(Player& player, const Game& game);
     void CalculatePlayerMovement(Player& player, const float deltaTime);
+    void DrawPlayer(Player& player, sf::RenderWindow& window);
 }

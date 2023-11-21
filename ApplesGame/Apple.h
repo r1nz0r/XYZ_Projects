@@ -4,12 +4,16 @@
 
 namespace ApplesGame
 {
+	struct Game;
+	
 	struct Apple
 	{
 		const float SIZE = 20.0f;
 		Position2D position;
-		sf::CircleShape shape;
+		sf::Sprite sprite;
 	};
 
-	void InitializeApples(Apple apples[]);
+	void InitializeApples(Apple apples[], const Game& game);
+	void DrawApple(Apple& apple, sf::RenderWindow& window);
+
 }

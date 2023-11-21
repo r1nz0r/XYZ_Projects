@@ -1,6 +1,7 @@
 #include <cassert>
 #include "Game.h"
 #include "Rock.h"
+#include "Player.h"
 
 namespace ApplesGame
 {
@@ -8,51 +9,66 @@ namespace ApplesGame
 	{
 		game.textFont.loadFromFile(RESOURCES_PATH + FONT_NAME);
 
-		//assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "/Player.png"));
+		assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "Player.png"));
+		assert(game.appleTexture.loadFromFile(RESOURCES_PATH + "Apple.png"));
+		assert(game.rockTexture.loadFromFile(RESOURCES_PATH + "Rock.png"));
+		assert(game.eatSoundBuffer.loadFromFile(RESOURCES_PATH + "AppleEat.wav"));
+		assert(game.deathSoundBuffer.loadFromFile(RESOURCES_PATH + "Death.wav"));
+
+		InitializePlayer(game.player, game);
+		InitializeApples(game.apples, game);
+		InitializeRocks(game.rocks, game);
 		
-		InitializePlayer(game.player);
-		InitializeApples(game.apples);
-		InitializeRocks(game.rocks);
-		InitializeGameScore(game.textFont, game);
+		InitializeText(game.textFont, game.scoreText, game.scoreMessage, game.scoreTextPosition, game);
+		InitializeText(game.textFont, game.hintText,game.hintMessage, game.hintTextPosition, game);
 	}
 
-	void Restart(sf::RenderWindow& window, Game& game)
+	void DisplayDeathMessage(Game& game, sf::RenderWindow& window)
 	{
 		game.scoreText.setString("You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds");
 		window.clear();
 		window.draw(game.scoreText);
 		window.display();
-		sf::sleep(sf::Time(sf::seconds(RESTART_DELAY)));
-		InitializePlayer(game.player);
-		InitializeApples(game.apples);
-		game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
 	}
-
-	void InitializeGameScore(const sf::Font& textFont, Game& game)
+	
+	void Restart(Game& game)
 	{
-		game.scoreText.setFont(textFont);
-		game.scoreText.setCharacterSize(20);
+		InitializePlayer(game.player, game);
+		InitializeApples(game.apples, game);
+		game.eatenApplesCount = 0;
 		game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
-		game.scoreText.setPosition(10.0f, 10.0f);
-		game.scoreText.setFillColor(sf::Color::Yellow);
+		game.pauseTimeLeft = RESTART_DELAY;
+		game.isPaused = false;
 	}
 
-	void DrawGame(sf::RenderWindow& window, const Game& game)
+	void InitializeText(const sf::Font& textFont, sf::Text& text,
+		std::string& message, const Position2D& location, Game& game)
+	{
+		text.setFont(textFont);
+		text.setCharacterSize(15);
+		text.setString(message);
+		text.setPosition(location.x, location.y);
+		text.setFillColor(sf::Color::Cyan);
+	}
+
+
+	void DrawGame(sf::RenderWindow& window, Game& game)
 	{
 		window.clear();
-		window.draw(game.player.shape);
-
-		for (const Apple& apple : game.apples)
+		DrawPlayer(game.player, window);
+		
+		for (Apple& apple : game.apples)
 		{
-			window.draw(apple.shape);
+			DrawApple(apple,window);
 		}
 
-		for (const Rock& rock : game.rocks)
+		for (Rock& rock : game.rocks)
 		{
-			window.draw(rock.shape);
+			DrawRock(rock, window);
 		}
 
 		window.draw(game.scoreText);
+		window.draw(game.hintText);
 		window.display();
 	}
 
@@ -62,12 +78,21 @@ namespace ApplesGame
 		shape.setOrigin(size / 2.f, size / 2.f);
 		shape.setPosition(object.x, object.y);
 	}
-	
-	void CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
+
+	void PlaySound(Game& game, const sf::SoundBuffer& soundToPlay)
+	{
+		game.sound.setBuffer(soundToPlay);
+		game.sound.play();
+	}
+
+	bool CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
 	{
 		// Check bounds
 		if (CheckBoundsCollision(game.player.position, game.player.SIZE))
-			Restart(window, game);
+		{
+			PlaySound(game, game.deathSoundBuffer);
+			return true;
+		}
 
 		for (int i = 0; i < APPLES_AMOUNT; ++i)
 		{
@@ -75,12 +100,13 @@ namespace ApplesGame
 				game.player.SIZE, game.apples[i].SIZE))
 			{
 				SetRandomPosition(game.apples[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
-				game.apples[i].shape.setPosition(game.apples[i].position.x, game.apples[i].position.y);
+				game.apples[i].sprite.setPosition(game.apples[i].position.x, game.apples[i].position.y);
 
 				++game.eatenApplesCount;
 				game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
 
 				game.player.speed += game.player.ACCELERATION;
+				PlaySound(game, game.eatSoundBuffer);
 			}
 		}
 
@@ -89,8 +115,11 @@ namespace ApplesGame
 			if (CheckRectangleCollision(game.player.position, game.rocks[i].position,
 				game.player.SIZE, game.rocks[i].SIZE))
 			{
-				Restart(window, game);
+				PlaySound(game, game.deathSoundBuffer);
+				return true;
 			}			
 		}
+
+		return false;
 	}
 }

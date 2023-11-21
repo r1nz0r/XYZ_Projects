@@ -11,4 +11,8 @@ namespace ApplesGame
     const int APPLES_AMOUNT = 30;
     const int ROCKS_AMOUNT = 40;
     const int RESTART_DELAY = 2;
+    const float ANGLE_LOOK_UP = -90.0f;
+    const float ANGLE_LOOK_DOWN = 90.0f;
+    const float ANGLE_LOOK_RIGHT = 0.0f;
+    const float ANGLE_LOOK_LEFT = 180.0f;
 }

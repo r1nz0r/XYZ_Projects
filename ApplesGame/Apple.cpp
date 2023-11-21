@@ -5,14 +5,20 @@
 
 namespace ApplesGame
 {
-	void InitializeApples(Apple apples[])
+	void InitializeApples(Apple apples[], const Game& game)
 	{
 		for (int i = 0; i < APPLES_AMOUNT; ++i)
 		{
 			SetRandomPosition(apples[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
-			apples[i].shape.setRadius(apples[i].SIZE / 2.0f);
-
-			InitializeShape(apples[i].position, apples[i].SIZE, sf::Color::Red, apples[i].shape);
+			apples[i].sprite.setTexture(game.appleTexture);
+			SetSpriteSize(apples[i].sprite, apples[i].SIZE, apples[i].SIZE);
+			SetSpriteRelativeOrigin(apples[i].sprite, 0.5f, 0.5f);
 		}
+	}
+
+	void DrawApple(Apple& apple, sf::RenderWindow& window)
+	{
+		apple.sprite.setPosition(apple.position.x, apple.position.y);
+		window.draw(apple.sprite);
 	}
 }

@@ -5,14 +5,21 @@
 
 namespace ApplesGame
 {
-	void InitializeRocks(Rock rocks[])
+	void InitializeRocks(Rock rocks[], const Game& game)
 	{
 		for (int i = 0; i < ROCKS_AMOUNT; ++i)
 		{
 			SetRandomPosition(rocks[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
-			rocks[i].shape.setSize(sf::Vector2f(rocks[i].SIZE, rocks[i].SIZE));
+			rocks[i].sprite.setTexture(game.rockTexture);
 
-			InitializeShape(rocks[i].position, rocks[i].SIZE, sf::Color::Cyan, rocks[i].shape);
+			SetSpriteSize(rocks[i].sprite, rocks[i].SIZE, rocks[i].SIZE);
+			SetSpriteRelativeOrigin(rocks[i].sprite, 0.5f, 0.5f);
 		}
+	}
+
+	void DrawRock(Rock& rock, sf::RenderWindow& window)
+	{
+		rock.sprite.setPosition(rock.position.x, rock.position.y);
+		window.draw(rock.sprite);
 	}
 }

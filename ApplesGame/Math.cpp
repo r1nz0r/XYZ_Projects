@@ -1,5 +1,6 @@
 #include "Math.h"
 #include "Constants.h"
+#include <SFMl/Graphics.hpp>
 
 namespace ApplesGame
 {
@@ -47,5 +48,18 @@ namespace ApplesGame
 	{
 		position.x = rand() / (float)RAND_MAX * screenWidth;
 		position.y = rand() / (float)RAND_MAX * screenHeight;
-	}	
+	}
+	
+	void SetSpriteSize(sf::Sprite& sprite, float desiredWidth, float desiredHeight)
+	{
+		sf::FloatRect spriteRect = sprite.getLocalBounds();
+		sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
+		sprite.setScale(scale);
+	}
+
+	void SetSpriteRelativeOrigin(sf::Sprite& sprite, float originX, float originY)
+	{
+		sf::FloatRect spriteRect = sprite.getLocalBounds();
+		sprite.setOrigin(originX * spriteRect.width, originY * spriteRect.height);
+	}
 }
