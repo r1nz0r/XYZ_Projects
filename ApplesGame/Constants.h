@@ -9,6 +9,6 @@ namespace ApplesGame
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 800;
     const int APPLES_AMOUNT = 30;
-    const int ROCKS_AMOUNT = 15;
+    const int ROCKS_AMOUNT = 40;
     const int RESTART_DELAY = 2;
 }

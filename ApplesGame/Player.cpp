@@ -1,17 +1,18 @@
 #include "Player.h"
 #include "Constants.h"
+#include "Game.h"
 
 namespace ApplesGame
 {
     void InitializePlayer(Player& player)
     {
-        player.x = SCREEN_WIDTH / 2.0f;
-        player.y = SCREEN_HEIGHT / 2.0f;
+        player.position.x = SCREEN_WIDTH / 2.0f;
+        player.position.y = SCREEN_HEIGHT / 2.0f;
         player.speed = player.INITIAL_SPEED;
         player.direction = MoveDirection::None;
         player.shape.setSize(sf::Vector2f(player.SIZE, player.SIZE));
 
-        InitializeShape(player, player.SIZE, sf::Color::Green, player.shape);
+        InitializeShape(player.position, player.SIZE, sf::Color::Green, player.shape);
     }
 
     void CalculatePlayerMovement(Player& player, const float deltaTime)
@@ -49,7 +50,7 @@ namespace ApplesGame
             break;
         }
 
-        player.x += deltaX * player.speed * deltaTime;
-        player.y += deltaY * player.speed * deltaTime;
+        player.position.x += deltaX * player.speed * deltaTime;
+        player.position.y += deltaY * player.speed * deltaTime;
     }
 }

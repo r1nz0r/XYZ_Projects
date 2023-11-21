@@ -5,9 +5,6 @@
 #include <SFML/Audio.hpp>
 #include "Constants.h"
 #include "Player.h"
-#include "Apple.h"
-#include "Math.h"
-#include "Rock.h"
 #include "Game.h"
 
 using namespace ApplesGame;
@@ -47,7 +44,7 @@ int main()
 		CalculatePlayerMovement(game.player, deltaTime);
 		CheckPlayerCollisions(window, game);
 
-		game.player.shape.setPosition(game.player.x, game.player.y);
+		game.player.shape.setPosition(game.player.position.x, game.player.position.y);
 
 		DrawGame(window, game);
 	}

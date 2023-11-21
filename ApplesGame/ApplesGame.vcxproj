@@ -164,7 +164,6 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rock.cpp" />
-    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apple.h" />
@@ -174,7 +173,6 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rock.h" />
-    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

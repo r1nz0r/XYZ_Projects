@@ -55,4 +55,42 @@ namespace ApplesGame
 		window.draw(game.scoreText);
 		window.display();
 	}
+
+	void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape)
+	{
+		shape.setFillColor(color);
+		shape.setOrigin(size / 2.f, size / 2.f);
+		shape.setPosition(object.x, object.y);
+	}
+	
+	void CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
+	{
+		// Check bounds
+		if (CheckBoundsCollision(game.player.position, game.player.SIZE))
+			Restart(window, game);
+
+		for (int i = 0; i < APPLES_AMOUNT; ++i)
+		{
+			if (CheckSphereCollision(game.player.position, game.apples[i].position,
+				game.player.SIZE, game.apples[i].SIZE))
+			{
+				SetRandomPosition(game.apples[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
+				game.apples[i].shape.setPosition(game.apples[i].position.x, game.apples[i].position.y);
+
+				++game.eatenApplesCount;
+				game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
+
+				game.player.speed += game.player.ACCELERATION;
+			}
+		}
+
+		for (int i = 0; i < ROCKS_AMOUNT; ++i)
+		{
+			if (CheckRectangleCollision(game.player.position, game.rocks[i].position,
+				game.player.SIZE, game.rocks[i].SIZE))
+			{
+				Restart(window, game);
+			}			
+		}
+	}
 }

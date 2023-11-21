@@ -1,10 +1,12 @@
 #pragma once
-#include "Vector2D.h"
+#include <SFML/Graphics.hpp>
+#include "Math.h"
 
 namespace ApplesGame
 {
-    struct Rock : public Vector2D
+    struct Rock
     {
+        Position2D position;
         const float SIZE = 20.0f;
         sf::RectangleShape shape;
     };

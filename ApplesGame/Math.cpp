@@ -1,45 +1,16 @@
 #include "Math.h"
+#include "Constants.h"
 
 namespace ApplesGame
 {
-	bool CheckAppleAndPlayerCollision(const Player& player, const Apple& apple)
+	bool CheckSphereCollision(const Vector2D& object, const Vector2D& other,
+		const float objectSize, const float otherSize)
 	{
-		for (int i = 0; i < APPLES_AMOUNT; ++i)
-		{
-			//Check circles:
-			float squareDistance = (player.x - apple.x) * (player.x - apple.x) +
-				(player.y - apple.y) * (player.y - apple.y);
-			float squareRadiusSum = (apple.SIZE + player.SIZE) * (apple.SIZE + player.SIZE) / 4;
+		float squareDistance = (object.x - other.x) * (object.x - other.x) +
+			(object.y - other.y) * (object.y - other.y);
+		float squareRadiusSum = (objectSize + otherSize) * (objectSize + otherSize) / 4;
 
-			if (squareDistance <= squareRadiusSum)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	bool CheckRocksAndPlayerCollision(const Player& player, const Rock rocks[])
-	{
-		for (int i = 0; i < ROCKS_AMOUNT; ++i)
-		{
-			if (fabs(player.y - rocks[i].x) <= (player.SIZE + rocks[i].SIZE) / 2.0f &&
-				fabs(player.y - rocks[i].y) <= (player.SIZE + rocks[i].SIZE) / 2.0f)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	bool CheckBoundsCollision(const Game& game)
-	{
-		if (game.player.x - game.player.SIZE / 2.f <= 0 ||
-			game.player.x + game.player.SIZE / 2.f >= SCREEN_WIDTH ||
-			game.player.y - game.player.SIZE / 2.f <= 0 ||
-			game.player.y + game.player.SIZE / 2.f >= SCREEN_HEIGHT)
+		if (squareDistance <= squareRadiusSum)
 		{
 			return true;
 		}
@@ -47,29 +18,34 @@ namespace ApplesGame
 		return false;
 	}
 
-	void CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
+	bool CheckRectangleCollision(const Vector2D& object, const Vector2D& other,
+		const float objectSize, const float otherSize)
 	{
-		// Check bounds
-		if (CheckBoundsCollision(game))
-			Restart(window, game);
-
-		for (int i = 0; i < APPLES_AMOUNT; ++i)
+		if (fabs(object.x - other.x) <= (objectSize + otherSize) / 2.0f &&
+				fabs(object.y - other.y) <= (objectSize + otherSize) / 2.0f)
 		{
-			if (CheckAppleAndPlayerCollision(game.player, game.apples[i]))
-			{
-				SetRandomPosition(game.apples[i], SCREEN_WIDTH, SCREEN_HEIGHT);
-				game.apples[i].shape.setPosition(game.apples[i].x, game.apples[i].y);
-
-				++game.eatenApplesCount;
-				game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
-
-				game.player.speed += game.player.ACCELERATION;
-			}
+			return true;
 		}
 
-		if (CheckRocksAndPlayerCollision(game.player, game.rocks))
-		{
-			Restart(window, game);
-		}
+		return false;
 	}
+
+	bool CheckBoundsCollision(const Vector2D& position, const float size)
+	{
+		if (position.x - size / 2.f <= 0 ||
+			position.x + size / 2.f >= SCREEN_WIDTH ||
+			position.y - size / 2.f <= 0 ||
+			position.y + size / 2.f >= SCREEN_HEIGHT)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	void SetRandomPosition(Vector2D& position, float screenWidth, float screenHeight)
+	{
+		position.x = rand() / (float)RAND_MAX * screenWidth;
+		position.y = rand() / (float)RAND_MAX * screenHeight;
+	}	
 }

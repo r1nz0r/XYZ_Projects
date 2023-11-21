@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Vector2D.h"
+#include "Math.h"
 
 namespace ApplesGame
 {
@@ -13,11 +13,12 @@ namespace ApplesGame
         None
     };
     
-    struct Player : public Vector2D
+    struct Player
     {
         const float SIZE = 20.0f;
         const float ACCELERATION = 20.0f;
         const float INITIAL_SPEED = 100.0f;
+        Position2D position;
         float speed = INITIAL_SPEED;
         sf::RectangleShape shape;
         sf::Sprite sprite;

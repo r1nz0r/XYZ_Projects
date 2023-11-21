@@ -26,4 +26,6 @@ namespace ApplesGame
     void Restart(sf::RenderWindow& window, Game& game);
     void InitializeGameScore(const sf::Font& textFont, Game& game);
     void DrawGame(sf::RenderWindow& window, const Game& game);
+    void CheckPlayerCollisions(sf::RenderWindow& window, Game& game);
+    void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape);
 }

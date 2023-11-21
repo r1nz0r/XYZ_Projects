@@ -1,11 +1,20 @@
 #pragma once
-#include "Game.h"
-#include "Rock.h"
 
 namespace ApplesGame
-{      
-    bool CheckAppleAndPlayerCollision(const Player& player, const Apple& apple);
-    bool CheckRocksAndPlayerCollision(const Player& player, const Rock rocks[]);
-    bool CheckBoundsCollision(const Game& game);
-    void CheckPlayerCollisions(sf::RenderWindow& window, Game& game);
+{
+	struct Vector2D
+	{
+		float x = 0;
+		float y = 0;
+	};
+
+	typedef Vector2D Position2D;
+	
+	bool CheckSphereCollision(const Vector2D& object, const Vector2D& other,
+		const float objectSize, const float otherSize);
+	bool CheckRectangleCollision(const Vector2D& object, const Vector2D& other,
+		const float objectSize, const float otherSize);
+	bool CheckBoundsCollision(const Vector2D& position, float size);
+	void SetRandomPosition(Vector2D& position, float screenWidth, float screenHeight);
+
 }
