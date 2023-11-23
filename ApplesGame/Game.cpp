@@ -19,15 +19,20 @@ namespace ApplesGame
 		InitializeApples(game.apples, game);
 		InitializeRocks(game.rocks, game);
 		
-		InitializeText(game.textFont, game.scoreText, game.scoreMessage, game.scoreTextPosition, game);
-		InitializeText(game.textFont, game.hintText,game.hintMessage, game.hintTextPosition, game);
+		game.scoreLabel.position = {10, 10};
+		game.scoreLabel.message = "Score: " + std::to_string(game.eatenApplesCount);
+		InitializeLabel(game.textFont, game.scoreLabel);
+		
+		game.hintLabel.position = {10, 30};
+		game.hintLabel.message = "Use arrows to move pacman.\nEat apples, dont touch borders and rocks.";
+		InitializeLabel(game.textFont, game.hintLabel);
 	}
 
 	void DisplayDeathMessage(Game& game, sf::RenderWindow& window)
 	{
-		game.scoreText.setString("You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds");
+		game.scoreLabel.text.setString("You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds");
 		window.clear();
-		window.draw(game.scoreText);
+		window.draw(game.scoreLabel.text);
 		window.display();
 	}
 	
@@ -36,19 +41,18 @@ namespace ApplesGame
 		InitializePlayer(game.player, game);
 		InitializeApples(game.apples, game);
 		game.eatenApplesCount = 0;
-		game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
+		game.scoreLabel.text.setString("Score: " + std::to_string(game.eatenApplesCount));
 		game.pauseTimeLeft = RESTART_DELAY;
 		game.isPaused = false;
 	}
 
-	void InitializeText(const sf::Font& textFont, sf::Text& text,
-		std::string& message, const Position2D& location, Game& game)
+	void InitializeLabel(const sf::Font& textFont, Label& label)
 	{
-		text.setFont(textFont);
-		text.setCharacterSize(15);
-		text.setString(message);
-		text.setPosition(location.x, location.y);
-		text.setFillColor(sf::Color::Cyan);
+		label.text.setFont(textFont);
+		label.text.setCharacterSize(15);
+		label.text.setString(label.message);
+		label.text.setPosition(label.position.x, label.position.y);
+		label.text.setFillColor(sf::Color::Cyan);
 	}
 
 
@@ -67,8 +71,8 @@ namespace ApplesGame
 			DrawRock(rock, window);
 		}
 
-		window.draw(game.scoreText);
-		window.draw(game.hintText);
+		window.draw(game.scoreLabel.text);
+		window.draw(game.hintLabel.text);
 		window.display();
 	}
 
@@ -103,7 +107,7 @@ namespace ApplesGame
 				game.apples[i].sprite.setPosition(game.apples[i].position.x, game.apples[i].position.y);
 
 				++game.eatenApplesCount;
-				game.scoreText.setString("Score: " + std::to_string(game.eatenApplesCount));
+				game.scoreLabel.text.setString("Score: " + std::to_string(game.eatenApplesCount));
 
 				game.player.speed += game.player.ACCELERATION;
 				PlaySound(game, game.eatSoundBuffer);
