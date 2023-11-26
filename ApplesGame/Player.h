@@ -29,4 +29,5 @@ namespace ApplesGame
     void InitializePlayer(Player& player, const Game& game);
     void CalculatePlayerMovement(Player& player, const float deltaTime);
     void DrawPlayer(Player& player, sf::RenderWindow& window);
+    void RotatePlayer(Player& player);
 }

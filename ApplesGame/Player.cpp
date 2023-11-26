@@ -36,25 +36,21 @@ namespace ApplesGame
         case MoveDirection::Right:
             {
                 deltaX = 1.f;
-                player.sprite.setRotation(ANGLE_LOOK_RIGHT);
                 break;
             }
         case MoveDirection::Left:
             {
                 deltaX = -1.f;
-                player.sprite.setRotation(ANGLE_LOOK_LEFT);
                 break;
             }
         case MoveDirection::Down:
             {
                 deltaY = 1.f;
-                player.sprite.setRotation(ANGLE_LOOK_DOWN);
                 break;
             }
         case MoveDirection::Up:
             {
                 deltaY = -1.f;
-                player.sprite.setRotation(ANGLE_LOOK_UP);
                 break;
             }
         case MoveDirection::None:
@@ -71,5 +67,19 @@ namespace ApplesGame
     {
         player.sprite.setPosition(player.position.x, player.position.y);
         window.draw(player.sprite);
+    }
+
+    void RotatePlayer(Player& player)
+    {
+        if (player.direction == MoveDirection::Left)
+        {
+            SetSpriteSize(player.sprite, -player.SIZE, player.SIZE);
+            player.sprite.setRotation(INITIAL_ANGLE);
+        }
+        else
+        {
+            SetSpriteSize(player.sprite, player.SIZE, player.SIZE);
+            player.sprite.setRotation((int)player.direction * ROTATION_ANGLE);
+        }
     }
 }

@@ -44,6 +44,7 @@ int main()
         if (game.isPaused == false)
         {
             CalculatePlayerMovement(game.player, deltaTime);
+            RotatePlayer(game.player);
             game.isPaused = CheckPlayerCollisions(window, game);
             DrawGame(window, game);
         }
