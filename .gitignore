@@ -1,7 +1,10 @@
 # temporary directories
-.vs
 x64
 x86
-.user
-.7z
-.rar
+.cache/
+.idea/
+.vs/
+.vscode/
+build/
+cmake-build-*/
+CMakeUserPresets.json
