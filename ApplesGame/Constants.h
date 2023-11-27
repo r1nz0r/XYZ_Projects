@@ -8,8 +8,10 @@ namespace ApplesGame
     const std::string GAME_TITLE = "Apples Game";
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 800;
-    const int APPLES_AMOUNT = 30;
-    const int ROCKS_AMOUNT = 40;
+    const int APPLES_AMOUNT_MIN = 20;
+    const int APPLES_AMOUNT_MAX = 50;
+    const int ROCKS_AMOUNT_MIN = 10;
+    const int ROCKS_AMOUNT_MAX = 30;
     const int RESTART_DELAY = 2;
     const float INITIAL_ANGLE = 0.0f;
     const float ROTATION_ANGLE = -90.0f;

@@ -5,20 +5,23 @@
 
 namespace ApplesGame
 {
-	void InitializeApples(Apple apples[], const Game& game)
-	{
-		for (int i = 0; i < APPLES_AMOUNT; ++i)
-		{
-			SetRandomPosition(apples[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
-			apples[i].sprite.setTexture(game.appleTexture);
-			SetSpriteSize(apples[i].sprite, apples[i].SIZE, apples[i].SIZE);
-			SetSpriteRelativeOrigin(apples[i].sprite, 0.5f, 0.5f);
-		}
-	}
+    void InitializeApples(std::vector<Apple>& apples, const Game& game)
+    {
+        apples.resize(game.applesAmount);
 
-	void DrawApple(Apple& apple, sf::RenderWindow& window)
-	{
-		apple.sprite.setPosition(apple.position.x, apple.position.y);
-		window.draw(apple.sprite);
-	}
+        for (int i = 0; i < game.applesAmount; ++i)
+        {
+            apples[i].isEaten = false;
+            SetRandomPosition(apples[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
+            apples[i].sprite.setPosition(apples[i].position.x, apples[i].position.y);
+            apples[i].sprite.setTexture(game.appleTexture);
+            SetSpriteSize(apples[i].sprite, apples[i].SIZE, apples[i].SIZE);
+            SetSpriteRelativeOrigin(apples[i].sprite, 0.5f, 0.5f);
+        }
+    }
+
+    void DrawApple(Apple& apple, sf::RenderWindow& window)
+    {
+        window.draw(apple.sprite);
+    }
 }

@@ -5,9 +5,11 @@
 
 namespace ApplesGame
 {
-	void InitializeRocks(Rock rocks[], const Game& game)
+	void InitializeRocks(std::vector<Rock>& rocks, const Game& game)
 	{
-		for (int i = 0; i < ROCKS_AMOUNT; ++i)
+		rocks.resize(game.rocksAmount);
+		
+		for (int i = 0; i < game.rocksAmount; ++i)
 		{
 			SetRandomPosition(rocks[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
 			rocks[i].sprite.setTexture(game.rockTexture);

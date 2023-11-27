@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Math.h"
 
 namespace ApplesGame
@@ -13,7 +14,7 @@ namespace ApplesGame
         sf::Sprite sprite;
     };
     
-    void InitializeRocks(Rock rocks[], const Game& game);
+    void InitializeRocks(std::vector<Rock>& rocks, const Game& game);
     void DrawRock(Rock& rock, sf::RenderWindow& window);
 
 }

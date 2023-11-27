@@ -16,17 +16,13 @@ int main()
     srand(static_cast<unsigned>(time(nullptr)));
 
     Game game;
+    InitializeMenu(game);
     InitializeGame(game);
 
     float lastTime = game.clock.getElapsedTime().asSeconds();
 
     while (window.isOpen())
     {
-        //Calculate delta time
-        float currentTime = game.clock.getElapsedTime().asSeconds();
-        float deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-
         //Read events
         sf::Event event;
 
@@ -35,26 +31,76 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            {
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape))
                 window.close();
-            }
+
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::H))
+                game.hintLabel.isVisible = !game.hintLabel.isVisible;
+
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))            
+                game.isStarted = true;            
+
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))            
+                game.isMuted = !game.isMuted;            
         }
-        
-        if (game.isPaused == false)
+
+        if (game.isStarted)
         {
-            CalculatePlayerMovement(game.player, deltaTime);
-            RotatePlayer(game.player);
-            game.isPaused = CheckPlayerCollisions(window, game);
-            DrawGame(window, game);
+            //Calculate delta time
+            float currentTime = game.clock.getElapsedTime().asSeconds();
+            float deltaTime = currentTime - lastTime;
+            //float deltaTime = 0.0005f;
+            lastTime = currentTime;
+
+            if (game.isPaused == false)
+            {
+                CalculatePlayerMovement(game.player, deltaTime);
+                RotatePlayer(game.player);
+                game.isPaused = CheckPlayerCollisions(window, game);
+                DrawGame(window, game);
+            }
+            else
+            {
+                game.pauseTimeLeft -= deltaTime;
+                DisplayDeathMessage(game, window);
+                if (game.pauseTimeLeft <= 0.0f)
+                {
+                    Restart(game);
+                }
+            }
         }
         else
         {
-            game.pauseTimeLeft -= deltaTime;
-            DisplayDeathMessage(game, window);
-            if (game.pauseTimeLeft <= 0.0f)
+            ShowMenu(game, window);
+            window.display();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
             {
-                Restart(game);
+                game.menuLabels[0].text.setFillColor(sf::Color::Green);
+                game.menuLabels[1].text.setFillColor(sf::Color::Yellow);
+                game.mode |= FINITE_MODE;
+                game.mode &= ~ENDLESS_MODE;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+            {
+                game.menuLabels[0].text.setFillColor(sf::Color::Yellow);
+                game.menuLabels[1].text.setFillColor(sf::Color::Green);
+                game.mode |= ENDLESS_MODE;
+                game.mode &= ~FINITE_MODE;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+            {
+                game.menuLabels[2].text.setFillColor(sf::Color::Green);
+                game.menuLabels[3].text.setFillColor(sf::Color::Yellow);
+                game.mode |= ACCELERATION_MODE;
+                game.mode &= ~NO_ACCELERATION_MODE;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+            {
+                game.menuLabels[2].text.setFillColor(sf::Color::Yellow);
+                game.menuLabels[3].text.setFillColor(sf::Color::Green);
+                game.mode |= NO_ACCELERATION_MODE;
+                game.mode &= ~ACCELERATION_MODE;
             }
         }
     }
