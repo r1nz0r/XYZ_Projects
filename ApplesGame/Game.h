@@ -63,7 +63,7 @@ namespace ApplesGame
     void Restart(Game& game);
     void DrawGame(sf::RenderWindow& window, Game& game);
     bool CheckPlayerCollisions(sf::RenderWindow& window, Game& game);
-    void DisplayDeathMessage(Game& game, sf::RenderWindow& window);
+    void DisplayEndMessage(Game& game,const std::string& message, sf::RenderWindow& window);
     void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape);
     void PlaySound(Game& game, const sf::SoundBuffer& soundToPlay);
 }

@@ -13,8 +13,9 @@ namespace ApplesGame
 		{
 			SetRandomPosition(rocks[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
 			rocks[i].sprite.setTexture(game.rockTexture);
-
-			SetSpriteSize(rocks[i].sprite, rocks[i].SIZE, rocks[i].SIZE);
+			rocks[i].size = Vector2D(20.0f, 20.0f);
+			
+			SetSpriteSize(rocks[i].sprite, rocks[i].size.x, rocks[i].size.y);
 			SetSpriteRelativeOrigin(rocks[i].sprite, 0.5f, 0.5f);
 		}
 	}

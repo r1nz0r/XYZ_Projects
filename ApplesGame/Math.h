@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "SFML/System/Vector2.hpp"
 
 namespace sf
 {
@@ -6,22 +7,28 @@ namespace sf
 }
 
 namespace ApplesGame
-{
+{    
     class sf::Sprite;
-	
-    struct Vector2D
+
+    typedef sf::Vector2f Vector2D; 
+    typedef sf::Vector2f Position2D;
+    
+    struct Circle
     {
-        float x = 0;
-        float y = 0;
+        Vector2D position;
+        float radius;
     };
 
-    typedef Vector2D Position2D;
+    struct Rectangle
+    {
+        Vector2D position;
+        Vector2D size;
+    };       
 	
-    bool CheckSphereCollision(const Vector2D& object, const Vector2D& other,
-        const float objectSize, const float otherSize);
-    bool CheckRectangleCollision(const Vector2D& object, const Vector2D& other,
-        const float objectSize, const float otherSize);
-    bool CheckBoundsCollision(const Vector2D& position, const float size);
+    bool CheckCircleCollision(const Circle& object, const Circle& other);
+    bool CheckRectangleCollision(const Rectangle& object, const Rectangle& other);
+    bool CheckCircleAndRectangleCollision(const Circle& circle, const Rectangle& rectangle);
+    bool CheckCircleBoundsCollision(const Circle& object);
     int GetRandomInt(int minValue, int maxValue);
     float GetRandomFloat(float minValue, float maxValue);
     void SetRandomPosition(Vector2D& position, float screenWidth, float screenHeight);	

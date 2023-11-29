@@ -37,11 +37,11 @@ int main()
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::H))
                 game.hintLabel.isVisible = !game.hintLabel.isVisible;
 
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))            
-                game.isStarted = true;            
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Enter))
+                game.isStarted = true;
 
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))            
-                game.isMuted = !game.isMuted;            
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::M))
+                game.isMuted = !game.isMuted;
         }
 
         if (game.isStarted)
@@ -62,7 +62,21 @@ int main()
             else
             {
                 game.pauseTimeLeft -= deltaTime;
-                DisplayDeathMessage(game, window);
+                std::string endMessage;
+
+                if (game.applesAmount != game.eatenApplesCount)
+                {
+                    endMessage = "You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
+                    "\nYour score is: " + std::to_string(game.eatenApplesCount); 
+                }
+                else
+                {
+                    endMessage = "You Win! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
+                    "\nYour score is: " + std::to_string(game.eatenApplesCount); 
+                }
+                
+                DisplayEndMessage(game, endMessage, window);
+                
                 if (game.pauseTimeLeft <= 0.0f)
                 {
                     Restart(game);

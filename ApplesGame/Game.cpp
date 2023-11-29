@@ -63,11 +63,9 @@ namespace ApplesGame
         InitializeLabel(game.hintLabel);
     }
 
-    void DisplayDeathMessage(Game& game, sf::RenderWindow& window)
+    void DisplayEndMessage(Game& game, const std::string& message, sf::RenderWindow& window)
     {
-        game.scoreLabel.text.setString(
-            "You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
-            "\nYour score is: " + std::to_string(game.eatenApplesCount));
+        game.scoreLabel.text.setString(message);
         window.clear();
         window.draw(game.scoreLabel.text);
         window.display();
@@ -75,11 +73,16 @@ namespace ApplesGame
 
     void Restart(Game& game)
     {
-        InitializePlayer(game.player, game);
-        InitializeApples(game.apples, game);
         game.isStarted = false;
         game.eatenApplesCount = 0;
+        game.applesAmount = GetRandomInt(APPLES_AMOUNT_MIN, APPLES_AMOUNT_MAX);
+        game.rocksAmount = GetRandomInt(ROCKS_AMOUNT_MIN, ROCKS_AMOUNT_MAX);       
         game.scoreLabel.text.setString("Score: " + std::to_string(game.eatenApplesCount));
+
+        InitializePlayer(game.player, game);
+        InitializeApples(game.apples, game);
+        InitializeRocks(game.rocks, game);
+        
         game.pauseTimeLeft = RESTART_DELAY;
         game.isPaused = false;
     }
@@ -146,7 +149,7 @@ namespace ApplesGame
     bool CheckPlayerCollisions(sf::RenderWindow& window, Game& game)
     {
         // Check bounds
-        if (CheckBoundsCollision(game.player.position, game.player.SIZE))
+        if (CheckCircleBoundsCollision(game.player))
         {
             if (!game.isMuted)
                 PlaySound(game, game.deathSoundBuffer);
@@ -159,17 +162,18 @@ namespace ApplesGame
             if (game.apples[i].isEaten)
                 continue;
 
-            if (CheckSphereCollision(game.player.position, game.apples[i].position,
-                                     game.player.SIZE, game.apples[i].SIZE))
+            if (CheckCircleCollision(game.player, game.apples[i]))
             {
                 OnAppleCollisionEnter(game, game.apples[i]);
+                
+                if (game.eatenApplesCount == game.applesAmount)
+                    return true;
             }
         }
 
         for (int i = 0; i < game.rocksAmount; ++i)
         {
-            if (CheckRectangleCollision(game.player.position, game.rocks[i].position,
-                                        game.player.SIZE, game.rocks[i].SIZE))
+            if (CheckCircleAndRectangleCollision(game.player, game.rocks[i]))
             {
                 if (!game.isMuted)
                     PlaySound(game, game.deathSoundBuffer);

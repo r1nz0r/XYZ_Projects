@@ -8,12 +8,13 @@ namespace ApplesGame
     {
         player.position.x = SCREEN_WIDTH / 2.0f;
         player.position.y = SCREEN_HEIGHT / 2.0f;
+        player.radius = 10.0f;
         player.speed = player.INITIAL_SPEED;
         player.direction = MoveDirection::None;
         //player.shape.setSize(sf::Vector2f(player.SIZE, player.SIZE));
         //InitializeShape(player.position, player.SIZE, sf::Color::Green, player.shape);
         player.sprite.setTexture(game.playerTexture);
-        SetSpriteSize(player.sprite, player.SIZE, player.SIZE);
+        SetSpriteSize(player.sprite, player.radius * 2.f, player.radius * 2.f);
         SetSpriteRelativeOrigin(player.sprite, 0.5f, 0.5f);
     }
 
@@ -73,13 +74,13 @@ namespace ApplesGame
     {
         if (player.direction == MoveDirection::Left)
         {
-            SetSpriteSize(player.sprite, -player.SIZE, player.SIZE);
+            SetSpriteSize(player.sprite, -player.radius * 2.f, player.radius * 2.f);
             player.sprite.setRotation(INITIAL_ANGLE);
         }
         else
         {
-            SetSpriteSize(player.sprite, player.SIZE, player.SIZE);
-            player.sprite.setRotation((int)player.direction * ROTATION_ANGLE);
+            SetSpriteSize(player.sprite, player.radius * 2.f, player.radius * 2.f);
+            player.sprite.setRotation(static_cast<float>(player.direction) * ROTATION_ANGLE);
         }
     }
 }

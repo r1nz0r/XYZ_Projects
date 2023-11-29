@@ -7,11 +7,9 @@ namespace ApplesGame
 {
 	struct Game;
 	
-	struct Apple
+	struct Apple : Circle
 	{
-		const float SIZE = 20.0f;
 		bool isEaten = false;
-		Position2D position;
 		sf::Sprite sprite;
 	};
 

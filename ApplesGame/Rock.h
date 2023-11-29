@@ -7,10 +7,8 @@ namespace ApplesGame
 {
     struct Game;
     
-    struct Rock
+    struct Rock : Rectangle
     {
-        Position2D position;
-        const float SIZE = 20.0f;
         sf::Sprite sprite;
     };
     

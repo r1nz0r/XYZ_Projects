@@ -15,12 +15,10 @@ namespace ApplesGame
         None
     };
     
-    struct Player
+    struct Player : Circle
     {
-        const float SIZE = 20.0f;
         const float ACCELERATION = 20.0f;
         const float INITIAL_SPEED = 200.0f;
-        Position2D position;
         float speed = INITIAL_SPEED;
         sf::Sprite sprite;
         MoveDirection direction = MoveDirection::None;
