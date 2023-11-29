@@ -77,6 +77,7 @@ namespace ApplesGame
     {
         InitializePlayer(game.player, game);
         InitializeApples(game.apples, game);
+        game.isStarted = false;
         game.eatenApplesCount = 0;
         game.scoreLabel.text.setString("Score: " + std::to_string(game.eatenApplesCount));
         game.pauseTimeLeft = RESTART_DELAY;
