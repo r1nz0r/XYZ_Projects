@@ -16,6 +16,7 @@ int main()
     srand(static_cast<unsigned>(time(nullptr)));
 
     Game game;
+    LoadResources(game);
     InitializeMenu(game);
     InitializeGame(game);
 
@@ -49,73 +50,23 @@ int main()
             //Calculate delta time
             float currentTime = game.clock.getElapsedTime().asSeconds();
             float deltaTime = currentTime - lastTime;
-            //float deltaTime = 0.0005f;
             lastTime = currentTime;
 
             if (game.isPaused == false)
             {
-                CalculatePlayerMovement(game.player, deltaTime);
-                RotatePlayer(game.player);
-                game.isPaused = CheckPlayerCollisions(window, game);
-                DrawGame(window, game);
+                UpdateGameState(window, game, deltaTime);
             }
             else
             {
-                game.pauseTimeLeft -= deltaTime;
-                std::string endMessage;
-
-                if (game.applesAmount != game.eatenApplesCount)
-                {
-                    endMessage = "You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
-                    "\nYour score is: " + std::to_string(game.eatenApplesCount); 
-                }
-                else
-                {
-                    endMessage = "You Win! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
-                    "\nYour score is: " + std::to_string(game.eatenApplesCount); 
-                }
-                
-                DisplayEndMessage(game, endMessage, window);
-                
-                if (game.pauseTimeLeft <= 0.0f)
-                {
-                    Restart(game);
-                }
+                StartEndGame(window, game, deltaTime);
             }
         }
         else
         {
             ShowMenu(game, window);
             window.display();
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
-            {
-                game.menuLabels[0].text.setFillColor(sf::Color::Green);
-                game.menuLabels[1].text.setFillColor(sf::Color::Yellow);
-                game.mode |= FINITE_MODE;
-                game.mode &= ~ENDLESS_MODE;
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-            {
-                game.menuLabels[0].text.setFillColor(sf::Color::Yellow);
-                game.menuLabels[1].text.setFillColor(sf::Color::Green);
-                game.mode |= ENDLESS_MODE;
-                game.mode &= ~FINITE_MODE;
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
-            {
-                game.menuLabels[2].text.setFillColor(sf::Color::Green);
-                game.menuLabels[3].text.setFillColor(sf::Color::Yellow);
-                game.mode |= ACCELERATION_MODE;
-                game.mode &= ~NO_ACCELERATION_MODE;
-            }
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
-            {
-                game.menuLabels[2].text.setFillColor(sf::Color::Yellow);
-                game.menuLabels[3].text.setFillColor(sf::Color::Green);
-                game.mode |= NO_ACCELERATION_MODE;
-                game.mode &= ~ACCELERATION_MODE;
-            }
+            
+            ProcessMenuInput(game);
         }
     }
 

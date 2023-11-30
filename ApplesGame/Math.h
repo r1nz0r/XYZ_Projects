@@ -31,7 +31,7 @@ namespace ApplesGame
     bool CheckCircleBoundsCollision(const Circle& object);
     int GetRandomInt(int minValue, int maxValue);
     float GetRandomFloat(float minValue, float maxValue);
-    void SetRandomPosition(Vector2D& position, float screenWidth, float screenHeight);	
+    void SetRandomColliderPosition(Vector2D& position, float screenWidth, float screenHeight);	
     void SetSpriteSize(sf::Sprite& sprite, float desiredWidth, float desiredHeight);
     void SetSpriteRelativeOrigin(sf::Sprite& sprite, float originX, float originY);
     

@@ -66,4 +66,8 @@ namespace ApplesGame
     void DisplayEndMessage(Game& game,const std::string& message, sf::RenderWindow& window);
     void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape);
     void PlaySound(Game& game, const sf::SoundBuffer& soundToPlay);
+    void ProcessMenuInput(Game& game);
+    void StartEndGame(sf::RenderWindow& window, Game& game, const float deltaTime);
+    void UpdateGameState(sf::RenderWindow& window, Game& game, const float deltaTime);
+    void LoadResources(Game& game);
 }

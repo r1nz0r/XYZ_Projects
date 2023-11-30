@@ -62,7 +62,7 @@ namespace ApplesGame
         return minValue + rand() / static_cast<float>((RAND_MAX)) * (maxValue - minValue);
     }
 
-    void SetRandomPosition(Vector2D& position, const float screenWidth, const float screenHeight)
+    void SetRandomColliderPosition(Vector2D& position, const float screenWidth, const float screenHeight)
     {
         position.x = GetRandomFloat(0.f, screenWidth);
         position.y = GetRandomFloat(0.f, screenHeight);

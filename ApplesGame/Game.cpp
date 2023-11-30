@@ -38,24 +38,29 @@ namespace ApplesGame
         }
     }
 
-    void InitializeGame(Game& game)
+    void LoadResources(Game& game)
     {
-        game.applesAmount = GetRandomInt(APPLES_AMOUNT_MIN, APPLES_AMOUNT_MAX);
-        game.rocksAmount = GetRandomInt(ROCKS_AMOUNT_MIN, ROCKS_AMOUNT_MAX);
-
         assert(game.playerTexture.loadFromFile(RESOURCES_PATH + "Player.png"));
         assert(game.appleTexture.loadFromFile(RESOURCES_PATH + "Apple.png"));
         assert(game.rockTexture.loadFromFile(RESOURCES_PATH + "Rock.png"));
         assert(game.eatSoundBuffer.loadFromFile(RESOURCES_PATH + "AppleEat.wav"));
         assert(game.deathSoundBuffer.loadFromFile(RESOURCES_PATH + "Death.wav"));
+    }
 
+    void InitializeGame(Game& game)
+    {
+        game.applesAmount = GetRandomInt(APPLES_AMOUNT_MIN, APPLES_AMOUNT_MAX);
+        game.rocksAmount = GetRandomInt(ROCKS_AMOUNT_MIN, ROCKS_AMOUNT_MAX);
+        
         InitializePlayer(game.player, game);
         InitializeApples(game.apples, game);
         InitializeRocks(game.rocks, game);
 
+        game.eatenApplesCount = 0;
         game.scoreLabel.position = {10, 10};
-        game.scoreLabel.message = "Score: " + std::to_string(game.eatenApplesCount);
+        game.scoreLabel.message = "Score: " + std::to_string(game.eatenApplesCount);        
         InitializeLabel(game.scoreLabel);
+        
         game.hintLabel.position = {10, 30};
         game.hintLabel.message = "Use arrows to move pacman.\nEat apples, dont touch borders and rocks."
             "\nFor toggle sound press \"M\" key"
@@ -74,15 +79,7 @@ namespace ApplesGame
     void Restart(Game& game)
     {
         game.isStarted = false;
-        game.eatenApplesCount = 0;
-        game.applesAmount = GetRandomInt(APPLES_AMOUNT_MIN, APPLES_AMOUNT_MAX);
-        game.rocksAmount = GetRandomInt(ROCKS_AMOUNT_MIN, ROCKS_AMOUNT_MAX);       
-        game.scoreLabel.text.setString("Score: " + std::to_string(game.eatenApplesCount));
-
-        InitializePlayer(game.player, game);
-        InitializeApples(game.apples, game);
-        InitializeRocks(game.rocks, game);
-        
+        InitializeGame(game);        
         game.pauseTimeLeft = RESTART_DELAY;
         game.isPaused = false;
     }
@@ -128,7 +125,7 @@ namespace ApplesGame
     {
         if (game.mode & ENDLESS_MODE)
         {
-            SetRandomPosition(apple.position, SCREEN_WIDTH, SCREEN_HEIGHT);
+            SetRandomColliderPosition(apple.position, SCREEN_WIDTH, SCREEN_HEIGHT);
             apple.sprite.setPosition(apple.position.x, apple.position.y);
         }
         else
@@ -166,7 +163,7 @@ namespace ApplesGame
             {
                 OnAppleCollisionEnter(game, game.apples[i]);
                 
-                if (game.eatenApplesCount == game.applesAmount)
+                if (game.eatenApplesCount == game.applesAmount && (game.mode & FINITE_MODE))
                     return true;
             }
         }
@@ -183,5 +180,69 @@ namespace ApplesGame
         }
 
         return false;
+    }
+
+    void ProcessMenuInput(Game& game)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+        {
+            game.menuLabels[0].text.setFillColor(sf::Color::Green);
+            game.menuLabels[1].text.setFillColor(sf::Color::Yellow);
+            game.mode |= FINITE_MODE;
+            game.mode &= ~ENDLESS_MODE;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+        {
+            game.menuLabels[0].text.setFillColor(sf::Color::Yellow);
+            game.menuLabels[1].text.setFillColor(sf::Color::Green);
+            game.mode |= ENDLESS_MODE;
+            game.mode &= ~FINITE_MODE;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+        {
+            game.menuLabels[2].text.setFillColor(sf::Color::Green);
+            game.menuLabels[3].text.setFillColor(sf::Color::Yellow);
+            game.mode |= ACCELERATION_MODE;
+            game.mode &= ~NO_ACCELERATION_MODE;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+        {
+            game.menuLabels[2].text.setFillColor(sf::Color::Yellow);
+            game.menuLabels[3].text.setFillColor(sf::Color::Green);
+            game.mode |= NO_ACCELERATION_MODE;
+            game.mode &= ~ACCELERATION_MODE;
+        }
+    }
+
+    void StartEndGame(sf::RenderWindow& window, Game& game, const float deltaTime)
+    {
+        game.pauseTimeLeft -= deltaTime;
+        std::string endMessage;
+
+        if (game.applesAmount != game.eatenApplesCount)
+        {
+            endMessage = "You loose! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
+                "\nYour score is: " + std::to_string(game.eatenApplesCount);
+        }
+        else
+        {
+            endMessage = "You Win! The game will restart in " + std::to_string(RESTART_DELAY) + " seconds" +
+                "\nYour score is: " + std::to_string(game.eatenApplesCount);
+        }
+
+        DisplayEndMessage(game, endMessage, window);
+
+        if (game.pauseTimeLeft <= 0.0f)
+        {
+            Restart(game);
+        }
+    }
+
+    void UpdateGameState(sf::RenderWindow& window, Game& game, const float deltaTime)
+    {
+        CalculatePlayerMovement(game.player, deltaTime);
+        RotatePlayer(game.player);
+        game.isPaused = CheckPlayerCollisions(window, game);
+        DrawGame(window, game);
     }
 }

@@ -6,13 +6,13 @@
 namespace ApplesGame
 {
     struct Game;
-    
+
     struct Rock : Rectangle
     {
         sf::Sprite sprite;
     };
-    
-    void InitializeRocks(std::vector<Rock>& rocks, const Game& game);
-    void DrawRock(Rock& rock, sf::RenderWindow& window);
 
+    void InitializeRocks(std::vector<Rock>& rocks, const Game& game);
+    void SetRockPosition(Rock& rock);
+    void DrawRock(const Rock& rock, sf::RenderWindow& window);
 }
