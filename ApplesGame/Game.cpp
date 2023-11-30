@@ -25,15 +25,15 @@ namespace ApplesGame
         game.menuLabels[2].message = "3. Acceleration game mode";
         game.menuLabels[2].color = sf::Color::Green;
 
-        game.menuLabels[3].message = "4. Standart speed game mode";
+        game.menuLabels[3].message = "4. Standard speed game mode";
         game.menuLabels[3].color = sf::Color::Yellow;
 
         game.menuLabels[4].message = "Enter - Start game";
         game.menuLabels[4].color = sf::Color::Cyan;
 
-        for (int i = 0; i < MENU_OPTIONS; ++i)
+        for (size_t i = 0; i < MENU_OPTIONS; ++i)
         {
-            game.menuLabels[i].position = {10.0f, (i + 1) * 15.0f};
+            game.menuLabels[i].position = {10.0f, (static_cast<float>(i) + 1) * 15.0f};
             InitializeLabel(game.menuLabels[i]);
         }
     }

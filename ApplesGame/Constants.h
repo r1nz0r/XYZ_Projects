@@ -6,13 +6,13 @@ namespace ApplesGame
     const std::string RESOURCES_PATH = "Resources/";
     const std::string FONT_NAME = "/Fonts/Roboto-Black.ttf";
     const std::string GAME_TITLE = "Apples Game";
-    const int SCREEN_WIDTH = 1200;
-    const int SCREEN_HEIGHT = 800;
-    const int APPLES_AMOUNT_MIN = 10;
-    const int APPLES_AMOUNT_MAX = 30;
-    const int ROCKS_AMOUNT_MIN = 5;
-    const int ROCKS_AMOUNT_MAX = 20;
-    const int RESTART_DELAY = 2;
-    const float INITIAL_ANGLE = 0.0f;
-    const float ROTATION_ANGLE = -90.0f;
+    constexpr int SCREEN_WIDTH = 1200;
+    constexpr int SCREEN_HEIGHT = 800;
+    constexpr int APPLES_AMOUNT_MIN = 30;
+    constexpr int APPLES_AMOUNT_MAX = 50;
+    constexpr int ROCKS_AMOUNT_MIN = 25;
+    constexpr int ROCKS_AMOUNT_MAX = 40;
+    constexpr int RESTART_DELAY = 2;
+    constexpr float INITIAL_ANGLE = 0.0f;
+    constexpr float ROTATION_ANGLE = -90.0f;
 }

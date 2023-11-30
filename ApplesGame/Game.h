@@ -12,13 +12,13 @@
 namespace ApplesGame
 {
     //GameMode
-    const uint8_t FINITE_MODE = 0x01;
-    const uint8_t ENDLESS_MODE = 0x02;
-    const uint8_t ACCELERATION_MODE = 0x04;
-    const uint8_t NO_ACCELERATION_MODE = 0x08;
-    const size_t MENU_OPTIONS = 5;
+    constexpr uint8_t FINITE_MODE = 0x01;
+    constexpr uint8_t ENDLESS_MODE = 0x02;
+    constexpr uint8_t ACCELERATION_MODE = 0x04;
+    constexpr uint8_t NO_ACCELERATION_MODE = 0x08;
+    constexpr size_t MENU_OPTIONS = 5;
     constexpr uint8_t DEFAULT_MODE = FINITE_MODE | ACCELERATION_MODE;
-
+    
     struct Game
     {
         Player player;

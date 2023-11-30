@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Constants.h"
-#include "Player.h"
 #include "Game.h"
 
 using namespace ApplesGame;
