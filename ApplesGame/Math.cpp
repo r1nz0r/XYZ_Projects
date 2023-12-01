@@ -6,9 +6,9 @@ namespace ApplesGame
 {
     bool CheckCircleCollision(const Circle& object, const Circle& other)
     {
-        float squareDistance = (object.position.x - other.position.x) * (object.position.x - other.position.x) +
+        const float squareDistance = (object.position.x - other.position.x) * (object.position.x - other.position.x) +
             (object.position.y - other.position.y) * (object.position.y - other.position.y);
-        float squareRadiusSum = (object.radius + other.radius) * (object.radius + other.radius);
+        const float squareRadiusSum = (object.radius + other.radius) * (object.radius + other.radius);
 
         if (squareDistance <= squareRadiusSum)
         {
@@ -31,14 +31,14 @@ namespace ApplesGame
 
     bool CheckCircleAndRectangleCollision(const Circle& circle, const Rectangle& rectangle)
     {
-        float dx = circle.position.x - std::max(rectangle.position.x,
-            std::min(circle.position.x, rectangle.position.x + rectangle.size.x));
-        float dy = circle.position.y - std::max(rectangle.position.y,
-          std::min(circle.position.y, rectangle.position.y + rectangle.size.y));
+        const float dx = circle.position.x - std::max(rectangle.position.x,
+                                                std::min(circle.position.x, rectangle.position.x + rectangle.size.x));
+        const float dy = circle.position.y - std::max(rectangle.position.y,
+                                                std::min(circle.position.y, rectangle.position.y + rectangle.size.y));
 
-        return (dx*dx + dy*dy) < (circle.radius * circle.radius);
+        return (dx * dx + dy * dy) < (circle.radius * circle.radius);
     }
-    
+
     bool CheckCircleBoundsCollision(const Circle& object)
     {
         if (object.position.x - object.radius <= 0 ||
@@ -59,7 +59,7 @@ namespace ApplesGame
 
     float GetRandomFloat(float minValue, float maxValue)
     {
-        return minValue + rand() / static_cast<float>((RAND_MAX)) * (maxValue - minValue);
+        return minValue +  static_cast<float>(rand()) / static_cast<float>((RAND_MAX)) * (maxValue - minValue);
     }
 
     void SetRandomColliderPosition(Vector2D& position, const float screenWidth, const float screenHeight)
@@ -70,14 +70,14 @@ namespace ApplesGame
 
     auto SetSpriteSize(sf::Sprite& sprite, const float desiredWidth, float desiredHeight) -> void
     {
-        sf::FloatRect spriteRect = sprite.getLocalBounds();
-        sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
+        const sf::FloatRect spriteRect = sprite.getLocalBounds();
+        const sf::Vector2f scale = {desiredWidth / spriteRect.width, desiredHeight / spriteRect.height};
         sprite.setScale(scale);
     }
 
     void SetSpriteRelativeOrigin(sf::Sprite& sprite, const float originX, const float originY)
     {
-        sf::FloatRect spriteRect = sprite.getLocalBounds();
+        const sf::FloatRect spriteRect = sprite.getLocalBounds();
         sprite.setOrigin(originX * spriteRect.width, originY * spriteRect.height);
     }
 }

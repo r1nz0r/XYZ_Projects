@@ -14,23 +14,23 @@ namespace ApplesGame
             SetRandomColliderPosition(rocks[i].position, SCREEN_WIDTH, SCREEN_HEIGHT);
             rocks[i].size.x = 20.0f;
             rocks[i].size.y = 20.0f;
-            
+
             bool isCollisionFree = true;
-            
+
             for (const auto& apple : game.apples)
             {
                 if (CheckCircleAndRectangleCollision(apple, rocks[i]))
                 {
                     isCollisionFree = false;
                     break;
-                }            
+                }
             }
 
-            for (int j = 0; j < game.rocksAmount; ++ j)
+            for (int j = 0; j < game.rocksAmount; ++j)
             {
                 if (j == i)
                     continue;
-                
+
                 if (CheckRectangleCollision(rocks[j], rocks[i]))
                 {
                     isCollisionFree = false;
@@ -41,7 +41,7 @@ namespace ApplesGame
             if (isCollisionFree)
             {
                 SetRockPosition(rocks[i]);
-                rocks[i].sprite.setTexture(game.rockTexture);              
+                rocks[i].sprite.setTexture(game.rockTexture);
                 SetSpriteSize(rocks[i].sprite, rocks[i].size.x, rocks[i].size.y);
                 SetSpriteRelativeOrigin(rocks[i].sprite, 0.5f, 0.5f);
             }

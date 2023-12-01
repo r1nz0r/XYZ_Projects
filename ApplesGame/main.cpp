@@ -12,7 +12,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), GAME_TITLE);
 
-    srand(static_cast<unsigned>(time(nullptr)));
+    std::srand(static_cast<unsigned>(time(nullptr)));
 
     Game game;
     LoadResources(game);
@@ -64,7 +64,7 @@ int main()
         {
             ShowMenu(game, window);
             window.display();
-            
+
             ProcessMenuInput(game);
         }
     }

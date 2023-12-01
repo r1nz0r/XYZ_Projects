@@ -18,7 +18,7 @@ namespace ApplesGame
     constexpr uint8_t NO_ACCELERATION_MODE = 0x08;
     constexpr size_t MENU_OPTIONS = 5;
     constexpr uint8_t DEFAULT_MODE = FINITE_MODE | ACCELERATION_MODE;
-    
+
     struct Game
     {
         Player player;
@@ -33,7 +33,7 @@ namespace ApplesGame
         bool isFinished = false;
         bool isPaused = false;
         bool isMuted = false;
-        
+
         float pauseTimeLeft = RESTART_DELAY;
 
         int eatenApplesCount = 0;
@@ -63,7 +63,7 @@ namespace ApplesGame
     void Restart(Game& game);
     void DrawGame(sf::RenderWindow& window, Game& game);
     bool CheckPlayerCollisions(sf::RenderWindow& window, Game& game);
-    void DisplayEndMessage(Game& game,const std::string& message, sf::RenderWindow& window);
+    void DisplayEndMessage(Game& game, const std::string& message, sf::RenderWindow& window);
     void InitializeShape(const Vector2D& object, const float size, const sf::Color& color, sf::Shape& shape);
     void PlaySound(Game& game, const sf::SoundBuffer& soundToPlay);
     void ProcessMenuInput(Game& game);

@@ -51,16 +51,16 @@ namespace ApplesGame
     {
         game.applesAmount = GetRandomInt(APPLES_AMOUNT_MIN, APPLES_AMOUNT_MAX);
         game.rocksAmount = GetRandomInt(ROCKS_AMOUNT_MIN, ROCKS_AMOUNT_MAX);
-        
+
         InitializePlayer(game.player, game);
         InitializeApples(game.apples, game);
         InitializeRocks(game.rocks, game);
 
         game.eatenApplesCount = 0;
         game.scoreLabel.position = {10, 10};
-        game.scoreLabel.message = "Score: " + std::to_string(game.eatenApplesCount);        
+        game.scoreLabel.message = "Score: " + std::to_string(game.eatenApplesCount);
         InitializeLabel(game.scoreLabel);
-        
+
         game.hintLabel.position = {10, 30};
         game.hintLabel.message = "Use arrows to move pacman.\nEat apples, dont touch borders and rocks."
             "\nFor toggle sound press \"M\" key"
@@ -79,7 +79,7 @@ namespace ApplesGame
     void Restart(Game& game)
     {
         game.isStarted = false;
-        InitializeGame(game);        
+        InitializeGame(game);
         game.pauseTimeLeft = RESTART_DELAY;
         game.isPaused = false;
     }
@@ -150,7 +150,7 @@ namespace ApplesGame
         {
             if (!game.isMuted)
                 PlaySound(game, game.deathSoundBuffer);
-            
+
             return true;
         }
 
@@ -162,7 +162,7 @@ namespace ApplesGame
             if (CheckCircleCollision(game.player, game.apples[i]))
             {
                 OnAppleCollisionEnter(game, game.apples[i]);
-                
+
                 if (game.eatenApplesCount == game.applesAmount && (game.mode & FINITE_MODE))
                     return true;
             }
@@ -174,7 +174,7 @@ namespace ApplesGame
             {
                 if (!game.isMuted)
                     PlaySound(game, game.deathSoundBuffer);
-                
+
                 return true;
             }
         }
